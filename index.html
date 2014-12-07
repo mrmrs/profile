@@ -1,0 +1,106 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+    <title>Github</title>
+    <link rel="stylesheet" href="/css/profile.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <style>
+      .serif { font-family: "Merriweather"; font-weight: 100; }
+    </style>
+  </head>
+
+  <body ng-controller="GitHubCtrl">
+
+    <div id="w">
+      <div class="tc pvl bg-dark-gray">
+        <input type="text" id="ghusername" ng-model="username" placeholder="Github username..." class="mrm f5 phm pvs br2 ba b--white">
+        <a href="#" id="ghsubmitbtn" ng-click="getGitInfo()" class="btn f5 bg-white gray pvs phm b--white">Go</a>
+        <div id="ghapidata"></div>
+      </div>
+      <div ng-show="userNotFound">
+        <h2>No User Info Found</h2>
+      </div>
+      <div ng-show="loaded" class="ptx">
+        <div class="avi tc">
+          <a href="{{ user.html_url }}" target="_blank"> <img src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
+        </div>
+        <div class="tc">
+          <h2 class="db mvn">
+            <span class="mega-ns"><a href="{{user.html_url}}" target="_blank" class="link dark-gray" style="text-transform:uppercase;"> {{user.login}} </a></span>
+          </h2>
+        </div>
+        <p class="mtn"><small class="fw1 db tc">{{user.name}}</small></p>
+
+        <div class="dn">
+          Followers: {{ user.followers }} - Following: {{ user.following }}<br>Repos: {{ user.public_repos }}</p>
+      </div>
+
+      <div class="phl">
+        <p ng-hide="reposFound">No repos!</p>
+        <div ng-show="reposFound">
+          <ul ng-show="reposFound" class="pln list cf wi-100">
+            <li ng-repeat="repo in repos" class="fl wi-100 wi-50-l pvl bb b--light-gray">
+              <a href="{{repo.html_url}}" target="_blank" class="f2 link b dark-gray ttu"> {{repo.name}} </a>
+              <span class="f4 serif db lh-copy">{{repo.description}}</span>
+              <b style="display:block;" class="mtm">{{repo.stargazers_count}} stars</b>
+            </li>
+          </ul>
+        </div>
+        <div ng-show="repos1Found">
+          <ul ng-repeat="repo in repos1" class="pln list cf wi-100">
+            <li class="fl wi-100 wi-50-m wi-33-l">
+              <a href="{{repo.html_url}}" target="_blank"> {{repo.name}} </a>
+              <p>{{repo.description}}</p>
+              <b style="display:block;">{{repo.stargazers_count}} stars</b>
+            </li>
+          </ul>
+        </div>
+        <div ng-show="repos2Found">
+          <ul ng-repeat="repo in repos2" class="pln list cf wi-100">
+            <li class="fl wi-100 wi-50-m wi-33-l">
+              <a href="{{repo.html_url}}" target="_blank"> {{repo.name}} </a>
+              <p>{{repo.description}}</p>
+              <b style="display:block;">{{repo.stargazers_count}} stars</b>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    function GitHubCtrl($scope, $http) {
+      $scope.getGitInfo = function () {
+        $scope.userNotFound = false;
+        $scope.loaded = false;
+
+        $http.get("https://api.github.com/users/" + $scope.username)
+          .success(function (data) {
+            if (data.name == "") data.name = data.login;
+            $scope.user = data;
+            $scope.loaded = true;
+          })
+        .error(function () {
+          $scope.userNotFound = true;
+        });
+        $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=1&per_page=100").success(function (data) {
+          $scope.repos = data;
+          $scope.reposFound = data.length > 0;
+        });
+        $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=2&per_page=100").success(function (data) {
+          $scope.repos1 = data;
+          $scope.repos1Found = data.length > 0;
+        });
+        $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=3&per_page=100").success(function (data) {
+          $scope.repos2 = data;
+          $scope.repos2Found = data.length > 0;
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>

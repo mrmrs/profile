@@ -1,0 +1,19 @@
+/*
+
+   LINKS
+
+*/
+
+.link {
+  text-decoration: none;
+  transition: color .175s ease-in;
+}
+
+.link:link,
+.link:visited { color: #2D243B; }
+.link:hover   { color: #999999; }
+.link:active  { color: #C4E3E0; }
+.link:focus   { color: #2D243B; }
+
+.underline             { text-decoration: underline; }
+.underline-hover:hover { text-decoration: underline; }

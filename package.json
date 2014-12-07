@@ -1,5 +1,5 @@
 {
-  "name": "tachyons",
+  "name": "gh-profile",
   "version": "1.0.0",
   "description": "Performance-first css framework built with sass.",
   "main": "index.html",
@@ -38,10 +38,7 @@
     "gulp-watch": "^0.6.8"
   },
   "contributors": [
-    { "name": "adam morse", "email": "hi@mrmrs.cc" },
-    { "name": "robert forloine", "url": "http://www.sndsgn.com"},
-    { "name": "david potsiadlo", "url": "http://www.davidpots.com/"},
-    { "name": "tyler benziger", "url": "http://tybenz.com"}
+    { "name": "adam morse", "email": "hi@mrmrs.cc" }
   ],
   "scripts": {
     "start": "gulp",

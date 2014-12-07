@@ -1,4 +1,4 @@
-// Gulp tasks for Tachyons
+// Gulp Tasks
 
 // Load plugins
 var gulp = require('gulp'),

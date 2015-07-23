@@ -35,35 +35,15 @@
         </div>
 
       <div>
-        <p ng-hide="reposFound">No repos!</p>
-        <div ng-show="reposFound">
-          <div ng-show="reposFound">
-            <article ng-repeat="repo in repos" class="bt b--near-white">
-              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
-                {{repo.name}}
-                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
-                <span class="small book">{{repo.stargazers_count}} stars</span>
-              </a>
-            </article>
-          </div>
-        </div>
-        <div ng-show="repos1Found">
-            <article ng-repeat="repo in repos1" class="bt b--near-white">
-              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
-                {{repo.name}}
-                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
-                <span class="small book">{{repo.stargazers_count}} stars</span>
-              </a>
-            </article>
-        </div>
-        <div ng-show="repos2Found">
-            <article ng-repeat="repo in repos2" class="bt b--near-white">
-              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
-                {{repo.name}}
-                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
-                <span class="small book">{{repo.stargazers_count}} stars</span>
-              </a>
-            </article>
+        <p ng-hide="repos">No repos!</p>
+        <div ng-show="repos">
+          <article ng-repeat="repo in repos" class="bt b--near-white">
+            <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
+              {{repo.name}}
+              <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
+              <span class="small book">{{repo.stargazers_count}} stars</span>
+            </a>
+          </article>
         </div>
       </div>
     </div>
@@ -88,17 +68,23 @@
         .error(function () {
           $scope.userNotFound = true;
         });
+
+        $scope.repos = [];
+
         $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=1&per_page=100").success(function (data) {
-          $scope.repos = data;
-          $scope.reposFound = data.length > 0;
+          if (data.length > 0) {
+            $scope.repos = $scope.repos.concat(data)
+          }
         });
         $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=2&per_page=100").success(function (data) {
-          $scope.repos1 = data;
-          $scope.repos1Found = data.length > 0;
+          if (data.length > 0) {
+            $scope.repos = $scope.repos.concat(data)
+          }
         });
         $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=3&per_page=100").success(function (data) {
-          $scope.repos2 = data;
-          $scope.repos2Found = data.length > 0;
+          if (data.length > 0) {
+            $scope.repos = $scope.repos.concat(data)
+          }
         });
       }
     }

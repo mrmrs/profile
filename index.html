@@ -11,7 +11,7 @@
   <body ng-controller="GitHubCtrl">
     <div id="w">
       <div class="tc pvl bg-dark-gray">
-        <input type="text" id="ghusername" ng-model="username" placeholder="Github username..." class="mrm f4 phm pvs br2 ba b--white">
+        <input type="text" id="ghusername" autofocus ng-model="username" placeholder="Github username..." class="mrm f4 phm pvs br2 ba b--white">
         <a href="#" id="ghsubmitbtn" ng-click="getGitInfo()" class="btn f4 bg-white gray pvs phm b--white">Go</a>
         <div id="ghapidata"></div>
       </div>

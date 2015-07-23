@@ -7,7 +7,9 @@
 .normal { font-weight: normal; }
 .b      { font-weight: bold; }
 .thin   { font-weight: 100; }
+.light   { font-weight: 300; }
 .book   { font-weight: 400; }
+.light-bold   { font-weight: 500; }
 .heavy  { font-weight: 900; }
 
 @include break(not-small) {

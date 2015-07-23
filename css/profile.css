@@ -1339,8 +1339,14 @@ body, .sans-serif {
 .thin {
   font-weight: 100; }
 
+.light {
+  font-weight: 300; }
+
 .book {
   font-weight: 400; }
+
+.light-bold {
+  font-weight: 500; }
 
 .heavy {
   font-weight: 900; }
@@ -1495,13 +1501,13 @@ img {
   color: #2D243B; }
 
 .link:hover {
-  color: #999999; }
+  color: #999; }
 
 .link:active {
   color: #C4E3E0; }
 
 .link:focus {
-  color: #2D243B; }
+  color: #999; }
 
 .underline {
   text-decoration: underline; }

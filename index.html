@@ -6,13 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html">
     <title>Github</title>
     <link rel="stylesheet" href="css/profile.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
-    <style>
-      .serif { font-family: "Merriweather"; font-weight: 100; }
-    </style>
   </head>
-
   <body ng-controller="GitHubCtrl">
-
     <div id="w">
       <div class="tc pvl bg-dark-gray">
         <input type="text" id="ghusername" ng-model="username" placeholder="Github username..." class="mrm f5 phm pvs br2 ba b--white">
@@ -22,53 +17,59 @@
       <div ng-show="userNotFound">
         <h2>No User Info Found</h2>
       </div>
-      <div ng-show="loaded" class="ptx">
-        <div class="avi tc">
+      <div ng-show="loaded">
+        <div class="tc mtm">
           <a href="{{ user.html_url }}" target="_blank"> <img src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
         </div>
         <div class="tc">
-          <h2 class="db mvn">
-            <span class="mega-ns"><a href="{{user.html_url}}" target="_blank" class="link dark-gray" style="text-transform:uppercase;"> {{user.login}} </a></span>
+          <h2 class="mbn">
+            <span><a href="{{user.html_url}}" target="_blank" class="link dark-gray" style="text-transform:uppercase;"> {{user.login}} </a></span>
           </h2>
         </div>
-        <p class="mtn"><small class="fw1 db tc">{{user.name}}</small></p>
+        <p class="tc mtn">{{user.name}}</p>
 
-        <div class="dn">
-          Followers: {{ user.followers }} - Following: {{ user.following }}<br>Repos: {{ user.public_repos }}</p>
-      </div>
+        <div>
+          <span class="dn">Followers: {{ user.followers }} - Following: {{ user.following }}</span>
+          <p class="tc"><span class="light-bold">{{ user.public_repos }}</span> public repos</p>
+        </div>
 
-      <div class="phl">
+      <div>
         <p ng-hide="reposFound">No repos!</p>
         <div ng-show="reposFound">
-          <ul ng-show="reposFound" class="pln list cf wi-100">
-            <li ng-repeat="repo in repos" class="fl wi-100 wi-50-l pvl bb b--light-gray">
-              <a href="{{repo.html_url}}" target="_blank" class="f2 link b dark-gray ttu"> {{repo.name}} </a>
-              <span class="f4 serif db lh-copy">{{repo.description}}</span>
-              <b style="display:block;" class="mtm">{{repo.stargazers_count}} stars</b>
-            </li>
-          </ul>
+          <div ng-show="reposFound">
+            <article ng-repeat="repo in repos" class="bt b--near-white">
+              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
+                {{repo.name}}
+                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
+                <span class="small light i">{{repo.stargazers_count}} stars</span>
+              </a>
+            </article>
+          </div>
         </div>
         <div ng-show="repos1Found">
-          <ul ng-repeat="repo in repos1" class="pln list cf wi-100">
-            <li class="fl wi-100 wi-50-m wi-33-l">
-              <a href="{{repo.html_url}}" target="_blank"> {{repo.name}} </a>
-              <p>{{repo.description}}</p>
-              <b style="display:block;">{{repo.stargazers_count}} stars</b>
-            </li>
-          </ul>
+            <article ng-repeat="repo in repos1" class="bt b--near-white">
+              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
+                {{repo.name}}
+                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
+                <span class="small book i">{{repo.stargazers_count}} stars</span>
+              </a>
+            </article>
         </div>
         <div ng-show="repos2Found">
-          <ul ng-repeat="repo in repos2" class="pln list cf wi-100">
-            <li class="fl wi-100 wi-50-m wi-33-l">
-              <a href="{{repo.html_url}}" target="_blank"> {{repo.name}} </a>
-              <p>{{repo.description}}</p>
-              <b style="display:block;">{{repo.stargazers_count}} stars</b>
-            </li>
-          </ul>
+            <article ng-repeat="repo in repos2" class="bt b--near-white">
+              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
+                {{repo.name}}
+                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
+                <span class="small book i">{{repo.stargazers_count}} stars</span>
+              </a>
+            </article>
         </div>
       </div>
     </div>
   </div>
+  <footer class="ptl pbx phm phl-ns bt b--light-gray">
+    <a href="http://mrmrs.cc" class="small link db tc ttu"> Built by MRMRS</a>
+  </footer>
 
 
   <script>
@@ -101,6 +102,15 @@
       }
     }
   </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-52095955-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>

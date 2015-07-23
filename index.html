@@ -4,14 +4,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html">
-    <title>Github</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mobile Github</title>
     <link rel="stylesheet" href="css/profile.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
   </head>
   <body ng-controller="GitHubCtrl">
     <div id="w">
       <div class="tc pvl bg-dark-gray">
-        <input type="text" id="ghusername" ng-model="username" placeholder="Github username..." class="mrm f5 phm pvs br2 ba b--white">
-        <a href="#" id="ghsubmitbtn" ng-click="getGitInfo()" class="btn f5 bg-white gray pvs phm b--white">Go</a>
+        <input type="text" id="ghusername" ng-model="username" placeholder="Github username..." class="mrm f4 phm pvs br2 ba b--white">
+        <a href="#" id="ghsubmitbtn" ng-click="getGitInfo()" class="btn f4 bg-white gray pvs phm b--white">Go</a>
         <div id="ghapidata"></div>
       </div>
       <div ng-show="userNotFound">
@@ -68,7 +69,7 @@
     </div>
   </div>
   <footer class="ptl pbx phm phl-ns bt b--light-gray">
-    <a href="http://mrmrs.cc" class="small link db tc ttu"> Built by MRMRS</a>
+    <a href="http://mrmrs.cc" class="f4 link db tc ttu"> Built by MRMRS</a>
   </footer>
 
 

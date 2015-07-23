@@ -71,21 +71,23 @@
 
         $scope.repos = [];
 
-        $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=1&per_page=100").success(function (data) {
-          if (data.length > 0) {
-            $scope.repos = $scope.repos.concat(data)
-          }
-        });
-        $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=2&per_page=100").success(function (data) {
-          if (data.length > 0) {
-            $scope.repos = $scope.repos.concat(data)
-          }
-        });
-        $http.get("https://api.github.com/users/" + $scope.username + "/repos?page=3&per_page=100").success(function (data) {
-          if (data.length > 0) {
-            $scope.repos = $scope.repos.concat(data)
-          }
-        });
+
+
+        addRepos = function(url) {
+            $http.get(url).success(function (data, status, headers) {
+                $scope.repos = $scope.repos.concat(data);
+
+                nextUrl = headers().link.match(/<([^\>]*)>; rel\=\"next\"/);
+
+                if (nextUrl) {
+                    addRepos(nextUrl[1]);
+                }
+            });
+        };
+
+        addRepos("https://api.github.com/users/" + $scope.username + "/repos");
+
+        //
       }
     }
   </script>

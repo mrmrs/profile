@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app>
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,7 +41,8 @@
             <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
               {{repo.name}}
               <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
-              <span class="small book">{{repo.stargazers_count}} stars</span>
+              <span class="small book" ng-if="repo.stargazers_count == 1">{{repo.stargazers_count}} star</span>
+              <span class="small book" ng-if="repo.stargazers_count != 1">{{repo.stargazers_count}} stars</span>
             </a>
           </article>
         </div>

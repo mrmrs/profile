@@ -13,7 +13,7 @@
       <div class="tc pvm bg-dark-gray">
         <form ng-submit="getGitInfo()">
           <input type="text" id="ghusername" autofocus ng-model="username" placeholder="Github username..." class="mrm f4 phm pvs br2 ba b--white">
-          <button type="submit" id="ghsubmitbtn" ng-click="getGitInfo()" class="btn f4 bg-white gray pvs phm b--white">Go</button>
+          <button type="submit" id="ghsubmitbtn" class="btn f4 bg-white gray pvs phm b--white">Go</button>
         </form>
         <div id="ghapidata"></div>
       </div>
@@ -22,7 +22,7 @@
       </div>
       <div ng-show="loaded">
         <div class="tc mtm">
-          <a href="{{ user.html_url }}" target="_blank"> <img src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
+          <a href="{{ user.html_url }}" target="_blank"> <img ng-src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
         </div>
         <div class="tc">
           <h2 class="mbn">

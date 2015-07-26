@@ -18,32 +18,6 @@ var gulp = require('gulp'),
     browserReload = browserSync.reload,
     stylestats = require('gulp-stylestats');
 
-gulp.task('fileinclude', function() {
-  gulp.src(['docs/*/index.html'])
-    .pipe(fileinclude({
-      prefix: '@@',
-      basepath: '@views'
-    }))
-    .pipe(gulp.dest('./'));
-});
-
-
-gulp.task('generateDocs', function() {
-
-  var content;
-  // First I want to read the file
-  fs.readFile('./css/profile.css', function read(err, data) {
-      if (err) {
-          throw err;
-      }
-      content = data;
-      var ast = css.parse(content, {source: 'css/profile.css'});
-      console.log(ast.stylesheet);
-
-  });
-
-});
-
 // Use csslint without box-sizing or compatible vendor prefixes (these
 // don't seem to be kept up to date on what to yell about)
 gulp.task('csslint', function(){

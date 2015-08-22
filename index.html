@@ -1,20 +1,20 @@
-<!doctype html>
-<html ng-app>
+  <!doctype html>
+  <html ng-app="profile">
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Github Profile Viewer</title>
     <link rel="stylesheet" href="css/profile.min.css" type="text/css" media="screen" charset="utf-8">
   </head>
-  <body ng-controller="GitHubCtrl">
+  <body ng-cloak ui-view>
     <div id="w">
       <div class="tc pvm bg-dark-gray">
-        <form ng-submit="getGitInfo()">
+        <form name="githubSearch" ng-submit="goUsername(username)">
           <input type="text" id="ghusername" autofocus ng-model="username" placeholder="Github username..." class="mrm f4 phm pvs br2 ba b--white">
-          <button type="submit" id="ghsubmitbtn" class="btn f4 bg-white gray pvs phm b--white">Go</button>
-        </form>
+          <button id="ghsubmitbtn" ng-model="username" class="btn f4 bg-white gray pvs phm b--white">Go</button>
         <div id="ghapidata"></div>
       </div>
       <div ng-show="userNotFound">
@@ -22,7 +22,7 @@
       </div>
       <div ng-show="loaded">
         <div class="tc mtm">
-          <a href="{{ user.html_url }}" target="_blank"> <img ng-src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
+          <a href="{{ user.html_url }}" target="_blank"> <img src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
         </div>
         <div class="tc">
           <h2 class="mbn">
@@ -36,73 +36,90 @@
           <p class="tc"><span class="light-bold">{{ user.public_repos }}</span> public repos</p>
         </div>
 
-      <div>
-        <p ng-hide="repos">No repos!</p>
-        <div ng-show="repos">
-          <article ng-repeat="repo in repos" class="bt b--near-white">
-            <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
-              {{repo.name}}
-              <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
-              <span class="small book" ng-if="repo.stargazers_count == 1">{{repo.stargazers_count}} star</span>
-              <span class="small book" ng-if="repo.stargazers_count != 1">{{repo.stargazers_count}} stars</span>
-            </a>
-          </article>
+        <div>
+          <p ng-hide="repos">No repos!</p>
+          <div ng-show="repos">
+            <article ng-repeat="repo in repos" class="bt b--near-white">
+              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
+                {{repo.name}}
+                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
+                <span class="small book">{{repo.stargazers_count}} stars</span>
+              </a>
+            </article>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <footer class="ptl pbx phm phl-ns bt b--light-gray">
-    <a href="http://tachyons.io" class="f4 link light-bold db tc"> Built with Tachyons</a>
-  </footer>
+    <footer class="ptl pbx phm phl-ns bt b--light-gray">
+      <a href="http://tachyons.io" class="f4 link light-bold db tc"> Built with Tachyons</a>
+    </footer>
 
 
-  <script>
-    function GitHubCtrl($scope, $http) {
-      $scope.getGitInfo = function () {
-        $scope.userNotFound = false;
-        $scope.loaded = false;
+    <script>
+    angular.module('profile', ['ui.router']).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+        $stateProvider
+        .state('index', {url: '', controller: 'github'})
+        .state('user', {
+          url: "/:user",
+          controller: 'github'
+        })
+      }])
 
-        $http.get("https://api.github.com/users/" + $scope.username)
+      angular.module('profile').controller('github', ['$scope', '$http', '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+        $scope.goUsername = function (name) {
+          $state.transitionTo('user', {user: name})
+        }
+        $scope.getGitInfo = function () {
+          $scope.userNotFound = false;
+          $scope.loaded = false;
+          $http.get("https://api.github.com/users/" + $scope.user)
           .success(function (data) {
             if (data.name == "") data.name = data.login;
             $scope.user = data;
             $scope.loaded = true;
           })
-        .error(function () {
-          $scope.userNotFound = true;
-        });
+          .error(function () {
+            $scope.userNotFound = true;
+          });
 
-        $scope.repos = [];
+          $scope.repos = [];
 
 
 
-        addRepos = function(url) {
+          addRepos = function(url) {
             $http.get(url).success(function (data, status, headers) {
-                $scope.repos = $scope.repos.concat(data);
-
+              $scope.repos = $scope.repos.concat(data);
+              console.log(data)
+              var nextUrl;
+              if ((headers().link)) {
                 nextUrl = headers().link.match(/<([^\>]*)>; rel\=\"next\"/);
-
-                if (nextUrl) {
-                    addRepos(nextUrl[1]);
-                }
+              }
+              if (nextUrl) {
+                addRepos(nextUrl[1]);
+              }
             });
-        };
+          };
 
-        addRepos("https://api.github.com/users/" + $scope.username + "/repos");
-
-        //
+          addRepos("https://api.github.com/users/" + $scope.user + "/repos");
+        }
+        if ($stateParams.user) {
+          console.log($stateParams.user)
+          $scope.user = angular.copy($stateParams.user);
+          $scope.getGitInfo();
+        }
       }
-    }
-  </script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ])
 
-  ga('create', 'UA-52095955-1', 'auto');
-  ga('send', 'pageview');
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-</script>
-</body>
+      ga('create', 'UA-52095955-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
 </html>

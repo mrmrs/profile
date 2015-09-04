@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Github Profile Viewer</title>
+    <link rel="stylesheet" href="octicons/octicons.css">
     <link rel="stylesheet" href="css/profile.min.css" type="text/css" media="screen" charset="utf-8">
   </head>
   <body ng-cloak ui-view>
@@ -36,14 +37,20 @@
           <p class="tc"><span class="light-bold">{{ user.public_repos }}</span> public repos</p>
         </div>
 
+        <div class="tc mbl">
+          <label>
+            <input type="checkbox" ng-model="showForks" /> <span class="octicon octicon-repo-forked"> Show forked repos</span>
+          </label>
+        </div>
+
         <div>
           <p ng-hide="repos">No repos!</p>
           <div ng-show="repos">
             <article ng-repeat="repo in repos" class="bt b--near-white">
-              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank">
-                {{repo.name}}
+              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank" ng-hide="repo.fork == true && showForks == false">
+                <span class="mega-octicon" ng-class="{ 'octicon-repo-forked': repo.fork == true, 'octicon-repo': repo.fork == false }"></span> {{repo.name}}
                 <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
-                <span class="small book">{{repo.stargazers_count}} stars</span>
+                <span class="octicon octicon-star"></span><span class="small book"> {{repo.stargazers_count}} stars</span>
               </a>
             </article>
           </div>
@@ -66,6 +73,8 @@
       }])
 
       angular.module('profile').controller('github', ['$scope', '$http', '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+        $scope.showForks = false;
+
         $scope.goUsername = function (name) {
           $state.transitionTo('user', {user: name})
         }

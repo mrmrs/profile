@@ -1,0 +1,16 @@
+/*
+
+   FORMS
+
+*/
+
+.input-reset {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.input-invisible {
+  outline: 0;
+  border: 0;
+}
+

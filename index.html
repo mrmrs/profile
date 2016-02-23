@@ -1,4 +1,4 @@
-  <!doctype html>
+  <!DOCTYPE html>
   <html ng-app="profile">
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
@@ -7,58 +7,64 @@
     <meta http-equiv="Content-Type" content="text/html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Github Profile Viewer</title>
-    <link rel="stylesheet" href="octicons/octicons.css">
-    <link rel="stylesheet" href="css/profile.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="css/tachyons.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="http://mrmrs.io/gradients/css/gradients.min.css" type="text/css" media="screen" charset="utf-8">
   </head>
-  <body ng-cloak ui-view>
+  <body ng-cloak ui-view class="sans-serif" style="background-color: #fbfbfb">
     <div id="w">
-      <div class="tc pvm bg-dark-gray">
+      <div class="tc pvm bg-light-gray">
         <form name="githubSearch" ng-submit="goUsername(username)">
-          <input type="text" id="ghusername" autofocus ng-model="username" placeholder="Github username..." class="mrm f4 phm pvs br2 ba b--white">
-          <button id="ghsubmitbtn" ng-model="username" class="btn f4 bg-white gray pvs phm b--white">Go</button>
+          <input type="text" id="ghusername" autofocus ng-model="username" placeholder="Github username..." class="mrm f5 phm pvs br2 ba b--white">
+          <button id="ghsubmitbtn" ng-model="username" class="input-reset f5 bg-white bw0 br2 dark-gray pvs phm ban dim">Go</button>
         <div id="ghapidata"></div>
       </div>
+      <div ng-hide="loaded" class="bg-light-gray pvxxl phm phl-m phxl-l bt b--white-75">
+        <p class="black-80 fw4 f4 f2-ns lh-copy mvn">
+          A mobile friendly, fully responsive GitHub profile.<br>
+        </p>
+        <p class="black-80 f4 center lh-copy">
+          Want a feature? <a href="https://github.com/mrmrs/profile/issues" class="link black-80 fw7 dim">Let us know :)</a>
+        </p>
+      </div>
       <div ng-show="userNotFound">
-        <h2>No User Info Found</h2>
+        <h2>Sorry we couldn't find that user. Please try searching again.</h2>
+        <p>Try searching again</p>
       </div>
       <div ng-show="loaded">
-        <div class="tc mtm">
-          <a href="{{ user.html_url }}" target="_blank"> <img src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
+        <div class="pvl">
+          <div class="tc">
+            <a href="{{ user.html_url }}" target="_blank" class="link dim"> <img src="{{ user.avatar_url }}" width="96" height="96" alt="{{ user.login }}" class="br-100"></a>
+          </div>
+          <div class="tc">
+            <h2 class="mvn tc">
+              <span class="dib"><a href="{{user.html_url}}" target="_blank" class="f2 link dim dark-gray">{{user.login}}</a></span>
+            </h2>
+          </div>
+          <p class="tc mtn mid-gray f6">{{user.name}}</p>
+          <div>
+            <p class="tc mbn dn"><span class="">{{ user.public_repos }}</span> public repos</p>
+            <p class="tc mvn mid-gray"><span class="gray f6">{{ user.location }}</span></p>
+          </div>
         </div>
-        <div class="tc">
-          <h2 class="mbn">
-            <span><a href="{{user.html_url}}" target="_blank" class="link dark-gray" style="text-transform:uppercase;"> {{user.login}} </a></span>
-          </h2>
-        </div>
-        <p class="tc mtn">{{user.name}}</p>
-
-        <div>
-          <span class="dn">Followers: {{ user.followers }} - Following: {{ user.following }}</span>
-          <p class="tc"><span class="light-bold">{{ user.public_repos }}</span> public repos</p>
-        </div>
-
-        <div class="tc mbl">
-          <label>
-            <input type="checkbox" ng-model="showForks" /> <span class="octicon octicon-repo-forked"> Show forked repos</span>
-          </label>
-        </div>
-
         <div>
           <p ng-hide="repos">No repos!</p>
           <div ng-show="repos">
-            <article ng-repeat="repo in repos" class="bt b--near-white">
-              <a class="db f3 b link pam phl-ns" href="{{repo.html_url}}" target="_blank" ng-hide="repo.fork == true && showForks == false">
-                <span class="mega-octicon" ng-class="{ 'octicon-repo-forked': repo.fork == true, 'octicon-repo': repo.fork == false }"></span> {{repo.name}}
-                <span class="db f4 book mvn lh-copy">{{repo.description}}</span>
-                <span class="octicon octicon-star"></span><span class="small book"> {{repo.stargazers_count}} stars</span>
+            <article ng-repeat="repo in repos" class="">
+              <a class="db f3 f2-ns b link dim dark-gray pam phl-m phxl-l mw10 center" href="{{repo.html_url}}" target="_blank">
+                {{repo.name}}
+                <span class="db f5 fw4 mvn lh-copy measure">{{repo.description}}</span>
+                <span class="f6 fw4">{{repo.stargazers_count}} stars</span>
               </a>
             </article>
           </div>
         </div>
       </div>
     </div>
-    <footer class="ptl pbx phm phl-ns bt b--light-gray">
-      <a href="http://tachyons.io" class="f4 link light-bold db tc"> Built with Tachyons</a>
+    <footer class="pvxl phm phl-m phxl-l bt b--light-gray mtxl">
+      <a href="http://tachyons.io" class="f6 link dim dark-gray db">Built with <b>Tachyons</b></a>
+      <p class="lh-copy measure">
+        This project is opensource and needs lots of love. If you're interested in contributing in anyway: opening issues, writing docs, or even building new features, check out the project on <a href="http://github.com/mrmrs/profile" class="link dim black b">GitHub</a>.
+      </p>
     </footer>
 
 
@@ -73,8 +79,6 @@
       }])
 
       angular.module('profile').controller('github', ['$scope', '$http', '$stateParams', '$state', function($scope, $http, $stateParams, $state) {
-        $scope.showForks = false;
-
         $scope.goUsername = function (name) {
           $state.transitionTo('user', {user: name})
         }

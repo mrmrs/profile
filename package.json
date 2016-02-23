@@ -1,11 +1,11 @@
 {
   "name": "gh-profile",
   "version": "1.0.0",
-  "description": "Performance-first css framework built with sass.",
+  "description": "GitHub Profile Viewer",
   "main": "index.html",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mrmrs/tachyons.git"
+    "url": "git://github.com/mrmrs/profile.git"
   },
   "keywords": [
     "css",
@@ -16,34 +16,19 @@
   "author": "mrmrs",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mrmrs/tachyons/issues"
+    "url": "https://github.com/mrmrs/profile/issues"
   },
   "devDependencies": {
     "browser-sync": "^1.1.1",
-    "css": "^2.1.0",
-    "css-parse": "^2.0.0",
-    "fs": "0.0.2",
-    "gulp": "^3.8.2",
-    "gulp-autoprefixer": "0.0.7",
-    "gulp-csslint": "^0.1.4",
-    "gulp-file-include": "^0.5.1",
-    "gulp-minify-css": "^0.3.5",
-    "gulp-rename": "^1.2.0",
-    "gulp-sass": "^0.7.2",
-    "gulp-shell": "^0.2.8",
-    "gulp-size": "^0.4.0",
-    "gulp-stylestats": "^0.2.8",
-    "gulp-uncss": "^0.4.4",
-    "gulp-util": "^2.2.18",
-    "gulp-watch": "^0.6.8"
+    "tachyons-cli": "^0.3.3"
   },
   "contributors": [
-    { "name": "adam morse", "email": "hi@mrmrs.cc" }
+    {
+      "name": "adam morse",
+      "email": "hi@mrmrs.cc"
+    }
   ],
   "scripts": {
-    "start": "gulp",
-    "stats": "gulp stylestats",
-    "test": "gulp fileinclude",
-    "ast": "gulp generateDocs"
+    "start": "tachyons src/tachyons.css > css/tachyons.css && tachyons src/tachyons.css --minify > css/tachyons.min.css && tachyons src/tachyons.css"
   }
 }
